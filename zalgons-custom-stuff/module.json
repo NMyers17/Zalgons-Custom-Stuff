@@ -1,0 +1,24 @@
+  {
+    "id": "zalgons-custom-stuff",
+    "title": "Zalgons Custom Stuff",
+    "description": "Personal Module",
+    "version": "1.0.0",
+    "compatibility": {
+      "minimum": 10,
+      "verified": 10.291,
+      "maximum": 10
+    },
+    "authors": [
+      {
+        "name": "Zalgon",
+        "discord": "Zalgon#6511"
+      }
+    ],
+    "styles": [
+      "/styles/styles.css"
+    ],
+    "scripts": [
+       "/hooks/hooks.js"
+       
+    ]
+  }
