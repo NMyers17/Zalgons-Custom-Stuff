@@ -1,3 +1,6 @@
+import {MODULE} from "../const.mjs";
+import {EXHAUSTION} from "./zalgon_functions.mjs";
+
 export function _performSheetEdits(sheet, html) {
   if (!sheet.sheetEdits) {
     const edits = new SheetEdits();
@@ -18,6 +21,7 @@ export class SheetEdits {
     if (this.sheet.document.type === "character") this._removeResources(html);
     if (this.sheet.document.type === "character") this._createNewDay();
     if (this.sheet.document.type === "character") this._createInspirationToggle();
+    if (this.sheet.document.type === "character") this._createExhaustion();
   }
 
   /** Set the color of the health attributes by adding a css class. */
@@ -96,4 +100,49 @@ export class SheetEdits {
   async _onClickInspiration(event) {
     return this.document.update({"system.attributes.inspiration": !this.document.system.attributes.inspiration});
   }
+
+ /** Disable the exhaustion input and add a listener to the label. */
+ _createExhaustion() {
+  this.html[0].querySelector(".counter.flexrow.exhaustion .counter-value input").disabled = true;
+  const header = this.html[0].querySelector(".counter.flexrow.exhaustion h4");
+  header.classList.add("rollable");
+  header.setAttribute("data-action", "updateExhaustion");
+  header.addEventListener("click", this._onClickExhaustion.bind(this.sheet));
+}
+
+/**
+ * Handle clicking the exhaustion label.
+ * @param {PointerEvent} event      The initiating click event.
+ */
+_onClickExhaustion(event) {
+  const actor = this.document;
+  const level = actor.system.attributes.exhaustion;
+  const effect = {
+    0: "You are not currently exhausted.",
+    1: "You currently have 1 level of exhaustion.",
+  }[level] ?? `You currently have ${level} levels of exhaustion.`;
+  const buttons = {
+    up: {
+      icon: "<i class='fa-solid fa-arrow-up'></i>",
+      label: "Gain a Level",
+      callback: () => EXHAUSTION.increaseExhaustion(actor)
+    },
+    down: {
+      icon: "<i class='fa-solid fa-arrow-down'></i>",
+      label: "Down a Level",
+      callback: () => EXHAUSTION.decreaseExhaustion(actor)
+    }
+  };
+  if (level < 1) delete buttons.down;
+  if (level > 10) delete buttons.up;
+
+  return new Dialog({
+    title: `Exhaustion: ${actor.name}`,
+    content: `<p>Adjust your level of exhaustion.</p><p>${effect}</p>`,
+    buttons
+  }, {
+    id: `${MODULE}-exhaustion-dialog-${actor.id}`,
+    classes: [MODULE, "exhaustion", "dialog"]
+  }).render(true);
+}
 }
