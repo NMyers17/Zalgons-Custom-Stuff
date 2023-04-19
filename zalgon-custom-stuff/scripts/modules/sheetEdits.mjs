@@ -13,10 +13,27 @@ export function _performSheetEdits(sheet, html) {
 
 export class SheetEdits {
   async render(html) {
+    if (this.sheet.document.type !== "group") this._setHealthColor();
     if (this.sheet.document.type === "character") this._renameRestLabels(html);
     if (this.sheet.document.type === "character") this._removeResources(html);
     if (this.sheet.document.type === "character") this._createNewDay();
     if (this.sheet.document.type === "character") this._createInspirationToggle();
+  }
+
+  /** Set the color of the health attributes by adding a css class. */
+  _setHealthColor() {
+    const hp = this.sheet.document.system.attributes.hp;
+    const a = (hp.value ?? 0) + (hp.temp ?? 0);
+    const b = (hp.max ?? 0) + (hp.tempmax ?? 0);
+    if (!b) return;
+    const nearDeath = a / b < 0.33;
+    const bloodied = a / b < 0.66 && !nearDeath;
+
+    const node = this.html[0].querySelector(
+      "[name='system.attributes.hp.value']"
+    );
+    node.classList.toggle("near-death", nearDeath);
+    node.classList.toggle("bloodied", bloodied);
   }
   
   /** Rename Rest Labels */

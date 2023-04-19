@@ -2,3 +2,13 @@
 .dnd5e .traits-list .tag {
   background-color: burlywood;
 }
+
+/* HP colors if below 33% */
+.dnd5e.sheet.actor input[name="system.attributes.hp.value"].near-death {
+  color: red;
+}
+
+/* HP colors if below 66% */
+.dnd5e.sheet.actor input[name="system.attributes.hp.value"].bloodied {
+  color: peru;
+}
