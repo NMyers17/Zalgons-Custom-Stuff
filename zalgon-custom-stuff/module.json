@@ -1,0 +1,22 @@
+{
+  "id": "zalgon-custom-stuff",
+  "title": "Zalgon's Custom Stuff",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Zalgon",
+      "url": "",
+      "discord": "Zalgon#6511"
+    }
+  ],
+  "compatibility": {
+    "minimum": "10",
+    "maximum": "10",
+    "verified": "10.291"
+  },
+  "esmodules": ["setup.mjs"],
+  "styles": [
+    "./styles/styles.css",
+    "./styles/sheetEdits.css"
+  ]
+}
