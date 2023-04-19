@@ -8,7 +8,7 @@ export function _performSheetEdits(sheet, html) {
     sheet.sheetEdits.html = html;
   }
   const e = sheet.sheetEdits;
-  e.render(...arguments);
+  e.render(html);
 }
 
 export class SheetEdits {
