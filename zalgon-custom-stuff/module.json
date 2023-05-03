@@ -18,8 +18,5 @@
   "styles": [
     "./styles/styles.css",
     "./styles/sheetEdits.css"
-  ],
-"url": "https://github.com/NMyers17/Zalgons-Custom-Stuff",
-"manifest": "https://raw.githubusercontent.com/NMyers17/Zalgons-Custom-Stuff/main/zalgon-custom-stuff/module.json",
-"download": "https://github.com/NMyers17/Zalgons-Custom-Stuff/raw/main/module.zip"
+  ]
 }
