@@ -22,7 +22,24 @@ export class SheetEdits {
     if (this.sheet.document.type === "character") this._createNewDay();
     if (this.sheet.document.type === "character") this._createInspirationToggle();
     if (this.sheet.document.type === "character") this._createExhaustion();
+    if (this.sheet.document.type === "character") this._createHeroPoints();
   }
+
+ /** Create a button for Hero Points. */
+ async _createHeroPoints() {
+  const div = document.createElement("div");
+  const templateData = {
+      name: `flags.${MODULE}.hero-points.value`,
+      value: this.sheet.document.flags[MODULE]?.["hero-points"].value ?? 0
+  };
+  const templateContent = await renderTemplate(`modules/${MODULE}/templates/heropointsButton.hbs`, templateData);
+  
+  div.innerHTML = templateContent;
+  
+  const input = div.querySelector(`[name="flags.${MODULE}.hero-points.value"]`);
+  this.html[0].querySelector("div.counter.flexrow.exhaustion").after(div.firstChild);
+}
+
 
   /** Set the color of the health attributes by adding a css class. */
   _setHealthColor() {
